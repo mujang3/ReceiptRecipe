@@ -1,0 +1,5 @@
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+backend/src/main/resources/ocr-key.json

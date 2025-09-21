@@ -1,0 +1,78 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.receiptrecipe'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // === Spring Boot Starters ===
+    implementation 'org.springframework.boot:spring-boot-starter-web'         // MVC
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+
+    // 필요하면 주석 해제 (WebFlux와 MVC를 동시에 쓰지 않는 걸 권장)
+    // implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // === Database ===
+    // 프로덕션/로컬 실DB: MySQL
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    // 개발용: H2 (In-Memory)
+    runtimeOnly 'com.h2database:h2'
+
+    // === Google Cloud Vision ===
+    implementation 'com.google.cloud:google-cloud-vision:3.32.0'
+
+    // === JSON ===
+    // Spring Boot가 Jackson을 관리하므로 별도 버전 고정 불필요 (starter에 포함)
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+
+    // === File Upload ===
+    implementation 'commons-fileupload:commons-fileupload:1.5'
+
+    // === JWT ===
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // === Security Crypto ===
+    implementation 'org.springframework.security:spring-security-crypto'
+
+    // (선택) 설정 메타데이터 생성
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // === Test ===
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// 메인 클래스 지정 (패키지와 실제 클래스 경로 확인)
+springBoot {
+    mainClass = 'org.receiptrecipe.backend.BackendApplication'
+}
