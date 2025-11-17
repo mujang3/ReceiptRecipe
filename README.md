@@ -95,5 +95,3 @@ brew services start mysql
 
 ---
 
-Made with ❤️ by ReceiptRecipe Team
-
